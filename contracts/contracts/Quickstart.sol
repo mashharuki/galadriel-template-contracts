@@ -55,9 +55,10 @@ contract Quickstart {
         uint currentId = callsCount;
         callsCount = currentId + 1;
 
+        // Oracleコントラクトの createFunctionCallメソッドを呼び出す。
         IOracle(oracleAddress).createFunctionCall(
             currentId,
-            "image_generation",
+            "image_generation", // ここでどの種類のメソッドを呼び出すか指定する。
             message
         );
 

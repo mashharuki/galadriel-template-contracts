@@ -3,6 +3,9 @@ import readline from "readline";
 
 const {ethers} = require("hardhat");
 
+/**
+ * メインスクリプト
+ */
 async function main() {
   const contractABI = [
     "function initializeDalleCall(string memory message) public returns (uint)",
@@ -20,6 +23,7 @@ async function main() {
   const contract = new ethers.Contract(contractAddress, contractABI, signer);
 
   // The content of the image you want to generate
+  // プロンプトを作成する。
   const message = await getUserInput();
 
   // Call the startChat function

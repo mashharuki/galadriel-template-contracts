@@ -137,6 +137,27 @@ task("query_knowledge_base", "Queries a knowledge base")
     return checkResult(response);
   });
 
+// シンプルなLLMのメソッドを呼び出すタスク
+task("call_openai_simple_llm", "call_openai_simple_llm")
+  .addParam("contract", "The address of the Test contract")
+  .addParam("message", "message")
+  .setAction(async (taskArgs, hre) => {
+    const contractAddress = taskArgs.contract;
+    const message = taskArgs.message;
+  
+    const contract = await getContract("OpenAiSimpleLLM", contractAddress, hre);
+    // 呼び出す。
+    const response = await sendMessage(contract, message, hre);
+    return checkResult(response);
+  });
+
+/**
+ * コントラクトインスタンスを生成するメソッド
+ * @param name 
+ * @param contractAddress 
+ * @param hre 
+ * @returns 
+ */
 async function getContract(
   name: string,
   contractAddress: string,
@@ -316,4 +337,30 @@ function checkResult(result: FunctionResponse) : FunctionResponse {
     }
   }
   return result;
+}
+
+/**
+ * OpenAiSimpleLLMコントラクトの send Messageメソッドを呼び出す。
+ */
+async function sendMessage(
+  contract: Contract,
+  message: string,
+  hre: HardhatRuntimeEnvironment
+): Promise<FunctionResponse> { 
+  try {
+    // 呼び出し
+    const txResponse = await contract.sendMessage(message);
+    await txResponse.wait();
+    let response = await contract.lastResponse();
+    let error = await contract.lastError();
+    while (response.length === 0 && error.length === 0) {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      response = await contract.lastResponse();
+      error = await contract.lastError();
+    }
+    return { response: response, error: error };
+  } catch (error) {
+    console.error(`Error calling contract function: ${error}`);
+  }
+  return { response: "", error: "Call failed" };
 }

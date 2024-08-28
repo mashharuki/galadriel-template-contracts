@@ -10,15 +10,15 @@ async function main() {
 }
 
 /**
- * QuickStartコントラクトをデプロイする。
+ * OpenAiSimpleLLMコントラクトをデプロイする。
  * @param oracleAddress 
  */
 async function deployQuickstart(oracleAddress: string) {
-  const agent = await ethers.deployContract("Quickstart", [oracleAddress], {});
+  const agent = await ethers.deployContract("OpenAiSimpleLLM", [oracleAddress], {});
 
   await agent.waitForDeployment();
 
-  console.log(`Quickstart contract deployed to ${agent.target}`);
+  console.log(`OpenAiSimpleLLM contract deployed to ${agent.target}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

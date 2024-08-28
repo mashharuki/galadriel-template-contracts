@@ -30,7 +30,9 @@ contract OpenAiSimpleLLM {
     }
 
     function sendMessage(string memory _message) public {
+        // プロンプトを作成する。
         message = createTextMessage("user", _message);
+        // OpenAiのAPIを呼び出す。
         IOracle(oracleAddress).createOpenAiLlmCall(0, config);
     }
 

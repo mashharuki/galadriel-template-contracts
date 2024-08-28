@@ -4,6 +4,9 @@ import * as readline from 'readline';
 
 require("dotenv").config()
 
+/**
+ * OpenAIのチャットを呼び出してみるシンプルなスクリプト
+ */
 async function main() {
   const rpcUrl = process.env.RPC_URL
   if (!rpcUrl) throw Error("Missing RPC_URL in .env")
