@@ -22,7 +22,19 @@ async function main() {
   const contract = new Contract(contractAddress, ABI, wallet)
 
   // The message you want to start the chat with
-  const message = await getUserInput()
+  // const message = await getUserInput()
+
+  const message = `
+    The following data represents a transaction that will be sent to the blockchain. 
+    Could you please explain this data in plain language so that even a beginner can understand it?
+    Please summarize it in a clear and concise manner.
+
+    {
+      "from": "0x51908F598A5e0d8F1A3bAbFa6DF76F9704daD072",
+      "to": "0x1431ea8af860C3862A919968C71f901aEdE1910E",
+      "value": 0.01
+    }
+  `;
 
   // Call the sendMessage function
   const transactionResponse = await contract.sendMessage(message)
