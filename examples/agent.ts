@@ -9,6 +9,10 @@ interface Message {
   content: string,
 }
 
+/**
+ * AI エージェント機能を試すスクリプト
+ * @returns 
+ */
 async function main() {
   const rpcUrl = process.env.RPC_URL
   if (!rpcUrl) throw Error("Missing RPC_URL in .env")
@@ -21,13 +25,14 @@ async function main() {
   const wallet = new Wallet(
     privateKey, provider
   )
+  // コントラクトインスタンスを作成する。
   const contract = new Contract(contractAddress, ABI, wallet)
 
   // The query you want to start the agent with
   const query = await getUserInput("Agent's task: ")
   const maxIterations = await getUserInput("Max iterations: ")
 
-  // Call the startChat function
+  // Call the startChat function(runAgent method)
   const transactionResponse = await contract.runAgent(query, Number(maxIterations));
   const receipt = await transactionResponse.wait()
   console.log(`Task sent, tx hash: ${receipt.hash}`)

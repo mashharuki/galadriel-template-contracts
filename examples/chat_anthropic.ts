@@ -42,6 +42,7 @@ async function main() {
   // Run the chat loop: read messages and send messages
   while (true) {
     const newMessages: Message[] = await getNewMessages(contract, chatId, allMessages.length);
+    console.log("newMeessage:", newMessages);
     if (newMessages) {
       for (let message of newMessages) {
         console.log(`${message.role}: ${message.content}`)
